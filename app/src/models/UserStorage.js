@@ -1,16 +1,23 @@
 "use strict";
 
-const { use } = require("../routes/home");
+const fs = require("fs").promises;
+// const { use } = require("../routes/home");
 
 class UserStorage {
-    static #users = {
-        id: ["pooky", "pooky1004", "rhjoung"],
-        psword: ["i5lovepooky!@#$%", "1234", "i0loveme^("],
-        name: ["푸키", "푸키천사", "임헌정"],
-    };
+
+    // static #getUserInfo(data, id) {
+    //     const users = JSON.parse(data);
+    //     const idx = users.id.indexOf(id);
+    //     const usersKeys = Object.keys(users);
+    //     const userInfo = usersKeys.reduce((newUser, info) => {
+    //         newUser[info] = users[info][idx];
+    //         return newUser;
+    //     }, {});
+
+    //     return userInfo;
+    // }
     
     static getUsers(...fields) {
-        const users = this.#users;
         const newUsers = fields.reduce((newUsers, field) => {
             if (users.hasOwnProperty(field)) {
                 newUsers[field] = users[field];
@@ -21,19 +28,25 @@ class UserStorage {
     }
 
     static getUserInfo(id) {
-        const users = this.#users;
-        const idx = users.id.indexOf(id);
-        const usersKeys = Object.keys(users);
-        const userInfo = usersKeys.reduce((newUser, info) => {
-            newUser[info] = users[info][idx];
-            return newUser;
-        }, {});
-
-        return userInfo;
+        return fs
+            .readFile("./src/databases/users.json")
+            .then((data) => {
+                // return this.#getUserInfo(data, id);
+                const users = JSON.parse(data);
+                const idx = users.id.indexOf(id);
+                const usersKeys = Object.keys(users);
+                const userInfo = usersKeys.reduce((newUser, info) => {
+                    newUser[info] = users[info][idx];
+                    return newUser;
+                }, {});
+        
+                return userInfo;          
+            })
+            .catch(console.error);
     }
 
     static save(userInfo) {
-        const users = this.#users;
+        // const users = this.#users;
         users.id.push(userInfo.id);
         users.name.push(userInfo.name);
         users.psword.push(userInfo.psword);
