@@ -4,9 +4,7 @@ const id = document.querySelector("#id"),
   name = document.querySelector("#name"),
   psword = document.querySelector("#psword"),
   confirmPsword = document.querySelector("#confirm-psword"),
-//   registerBtn = document.querySelector("button");
   registerBtn = document.querySelector("#button");
-
 
 registerBtn.addEventListener("click", register);
 
@@ -40,4 +38,3 @@ function register() {
         console.error("회원가입 중 에러 발생");
       });
 }
-
