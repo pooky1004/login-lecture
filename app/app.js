@@ -4,9 +4,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-dotenv.config();
+const morgan = require('morgan');
 
 const app = express();
+dotenv.config();
+
+const accessLogStream = require("./src/config/log");
 
 // 라우팅
 const home = require("./src/routes/home");
@@ -19,6 +22,14 @@ app.use(express.static(`${__dirname}/src/public`))
 app.use(bodyParser.json());
 // URL을 통해 전달되는 데이터에 한글, 공백 등과 같은 문자가 포함될 경우 제대로 인식되지 못하는 문제 해결
 app.use(bodyParser.urlencoded({extended: true}));
+// app.use(morgan("tiny"));
+// app.use(
+//     morgan(":method :url :status :res[content-length] - :response-time ms")
+// );
+// app.use(morgan(":remote-user :method :date[web]", { stream: accessLogStream }));
+// app.use(morgan("combined"));
+app.use(morgan("dev"));
+app.use(morgan("common", { stream: accessLogStream }));
 
 app.use("/", home); // use -> 미들 웨어를 등록해 주는 메서드
 

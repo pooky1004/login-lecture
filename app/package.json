@@ -1,10 +1,13 @@
 {
   "dependencies": {
+    "app-root-path": "^3.1.0",
     "body-parser": "^1.20.2",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "express": "^4.19.2",
-    "mysql": "^2.18.1"
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "winston": "^3.13.0"
   },
   "name": "login-lecture",
   "version": "1.0.0",
